@@ -1,0 +1,86 @@
+--- Task 1 ---
+Original orders shape: (180, 9)
+
+--- Task 2 ---
+Raw payment_method unique values: <StringArray>
+['upi', 'UPI', 'COD', 'Card', 'cod', 'CARD', 'card']
+Length: 7, dtype: str
+Cleaned payment_method counts:
+payment_method
+CARD    70
+UPI     55
+COD     55
+Name: count, dtype: int64
+
+--- Task 3 ---
+Dropped Order IDs: ['O0176', 'O0177', 'O0178', 'O0179', 'O0180']
+Cleaned orders shape: (175, 9)
+
+--- Task 4 ---
+Rating median before imputation: 3.0
+Null counts after imputation:
+discount_pct    0
+rating          0
+dtype: int64
+
+--- Task 5 ---
+Total Revenue (175 rows): 97358.30
+
+Reconciliation Note: The total order_value across the 175 cleaned rows is Γé╣97358.30, which is exactly Γé╣2501.90 less than Part 1 Report (a)'s raw total of Γé╣99,860.20. This exact delta is entirely attributed to the 5 duplicate rows removed in Task 3 (O0176-O0180), and not to discount/rating imputation which does not affect order_value.
+
+--- Task 6 ---
+Q1: 1.0, Q3: 2.0, IQR: 1.0, Lower: -0.5, Upper: 3.5
+Outlier Order IDs: ['O0011', 'O0098']
+
+--- Task 7 ---
+Hypothesis: Cash on Delivery (COD) orders have a significantly higher return rate.
+                count  return_rate_pct
+payment_method                        
+CARD               68             14.7
+COD                54             44.4
+UPI                53             18.9
+Hypothesis Status: Confirmed
+
+--- Task 8 ---
+                          count  return_rate_pct
+payment_method city_tier                        
+CARD           1             45              8.9
+               2             23             26.1
+COD            1             32             37.5
+               2             22             54.5
+UPI            1             31             19.4
+               2             22             18.2
+Highest Risk Segment: COD in Tier-2 cities at 54.5% return rate.
+
+--- Task 9 ---
+Correlation Matrix:
+                 rating  returned  discount_pct  quantity
+rating        1.000000 -0.101483      0.042730 -0.097987
+returned     -0.101483  1.000000     -0.088023  0.040627
+discount_pct  0.042730 -0.088023      1.000000 -0.170423
+quantity     -0.097987  0.040627     -0.170423  1.000000
+All pairwise correlations fall into the 'negligible' band (|r| < 0.2).
+Hypothesis 'higher discounts reduce returns' Status: Busted (correlation Γëê -0.09)
+
+--- Task 10 ---
+Monthly Revenue (With Outliers):
+ year_month
+2026-01    29582.1
+2026-02    13195.5
+2026-03    20318.9
+2026-04     9495.3
+2026-05    13151.1
+2026-06    11615.4
+Name: order_value, dtype: float64
+
+Monthly Revenue (Outlier-Corrected):
+ year_month
+2026-01    11637.1
+2026-02    13195.5
+2026-03    20318.9
+2026-04     9495.3
+2026-05    13151.1
+2026-06    11615.4
+Name: order_value, dtype: float64
+
+Note: January's apparent revenue lead (29,582.10) was an artifact of two large bulk orders (O0011 and O0098). Once excluded, March 2026 is revealed as the genuine peak revenue month (20,318.90).
