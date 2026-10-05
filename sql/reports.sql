@@ -15,16 +15,16 @@ FROM orders;
 -- Query 1: LEFT JOIN se zero orders wale customer dhoondhna
 SELECT 
     c.customer_id, 
-    c.customer_name
+    c.name
 FROM customers c
 LEFT JOIN orders o ON c.customer_id = o.customer_id
-GROUP BY c.customer_id, c.customer_name
+GROUP BY c.customer_id, c.name
 HAVING COUNT(o.order_id) = 0;
 
 -- Query 2: NOT IN subquery se confirm karna
 SELECT 
     customer_id, 
-    customer_name
+    name
 FROM customers
 WHERE customer_id NOT IN (
     SELECT DISTINCT customer_id 
@@ -46,24 +46,24 @@ ORDER BY return_rate_pct DESC;
 -- Query 1: Top 5 customers (LIMIT 5)
 SELECT 
     c.customer_id,
-    c.customer_name,
+    c.name,
     ROUND(SUM(o.quantity * p.price * (1 - COALESCE(o.discount_pct, 0) / 100)), 2) AS total_spend
 FROM orders o
 JOIN customers c ON o.customer_id = c.customer_id
 JOIN products p ON o.product_id = p.product_id
-GROUP BY c.customer_id, c.customer_name
+GROUP BY c.customer_id, c.name
 ORDER BY total_spend DESC, c.customer_id ASC
 LIMIT 5;
 
 -- Query 2: Ranks 3 to 5 (LIMIT 3 OFFSET 2)
 SELECT 
     c.customer_id,
-    c.customer_name,
+    c.name,
     ROUND(SUM(o.quantity * p.price * (1 - COALESCE(o.discount_pct, 0) / 100)), 2) AS total_spend
 FROM orders o
 JOIN customers c ON o.customer_id = c.customer_id
 JOIN products p ON o.product_id = p.product_id
-GROUP BY c.customer_id, c.customer_name
+GROUP BY c.customer_id, c.name
 ORDER BY total_spend DESC, c.customer_id ASC
 LIMIT 3 OFFSET 2;
 
