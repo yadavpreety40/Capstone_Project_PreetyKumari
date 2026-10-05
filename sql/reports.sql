@@ -152,6 +152,9 @@ ORDER BY acquisition_source ASC;
 -- Step 1: Column addition
 ALTER TABLE customers ADD COLUMN loyalty_tier VARCHAR(10);
 
+-- Safe mode disable --
+SET SQL_SAFE_UPDATES = 0;
+
 -- Step 2: Update with CASE
 UPDATE customers
 SET loyalty_tier = CASE 
