@@ -85,6 +85,9 @@ SELECT DISTINCT acquisition_source
 FROM customers
 ORDER BY acquisition_source ASC;
 
+-- Safe updates off 
+SET SQL_SAFE_UPDATES = 0;
+
 -- Step 1: Column Add Karein
 ALTER TABLE customers 
 ADD COLUMN loyalty_tier VARCHAR(10);
@@ -96,42 +99,6 @@ SET loyalty_tier = CASE
     ELSE 'Silver' 
 END;
 
--- Safe updates off karein
-SET SQL_SAFE_UPDATES = 0;
-
--- Step 2: UPDATE chalayein
-UPDATE customers
-SET loyalty_tier = CASE 
-    WHEN city_tier = 1 THEN 'Gold' 
-    ELSE 'Silver' 
-END;
-
--- Safe updates off karein
-SET SQL_SAFE_UPDATES = 0;
-
--- Step 2: UPDATE chalayein
-UPDATE customers
-SET loyalty_tier = CASE 
-    WHEN city_tier = 1 THEN 'Gold' 
-    ELSE 'Silver' 
-END;
-
--- Safe updates off karein
-SET SQL_SAFE_UPDATES = 0;
-
--- Step 2: UPDATE chalayein
-UPDATE customers
-SET loyalty_tier = CASE 
-    WHEN city_tier = 1 THEN 'Gold' 
-    ELSE 'Silver' 
-END;
-
-SET SQL_SAFE_UPDATES = 0;
-UPDATE customers
-SET loyalty_tier = CASE 
-    WHEN city_tier = 1 THEN 'Gold' 
-    ELSE 'Silver' 
-END;
 SELECT loyalty_tier, COUNT(*) 
 FROM customers 
 GROUP BY loyalty_tier;
