@@ -88,11 +88,6 @@ ORDER BY acquisition_source ASC;
 -- Safe updates off 
 SET SQL_SAFE_UPDATES = 0;
 
--- Step 1: Column Add Karein
-ALTER TABLE customers 
-ADD COLUMN loyalty_tier VARCHAR(10);
-
--- Step 2: Values Update Karein
 UPDATE customers
 SET loyalty_tier = CASE 
     WHEN city_tier = 1 THEN 'Gold' 
